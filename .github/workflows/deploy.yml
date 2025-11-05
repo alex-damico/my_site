@@ -13,22 +13,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Flutter
+      - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.29.3'
 
-      - name: Get dependencies
-        run: flutter pub get
-
       - name: Build Flutter Web
         run: flutter build web --release
 
-      - name: Deploy to Cloudflare Pages
+      - name: Publish to Cloudflare Pages
         uses: cloudflare/pages-action@v1
         with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CF_ACCOUNT_ID }}
-          projectName: my_site  # es: my-flutter-site
+          projectName: ${{ secrets.CF_PROJECT_NAME }}
           directory: build/web
-
